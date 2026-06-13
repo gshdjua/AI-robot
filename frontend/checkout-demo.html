@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Demo — CommerceBot</title>
+    <style>
+        :root {
+            --bg: #0f1117; --bg-card: #1a1d27; --text: #e8eaed;
+            --text-muted: #9aa0b0; --success: #00c853; --accent: #6c5ce7;
+            --border: #2d3140;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg); color: var(--text);
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; padding: 20px;
+        }
+        .checkout-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 16px; padding: 40px; max-width: 480px; width: 100%;
+            text-align: center;
+        }
+        h1 { font-size: 1.5rem; margin-bottom: 8px; }
+        .stripe-badge {
+            display: inline-block; padding: 6px 16px; margin: 16px 0;
+            background: rgba(99, 102, 241, 0.15); color: var(--accent);
+            border-radius: 20px; font-size: 0.9rem; font-weight: 600;
+        }
+        .product-info {
+            background: rgba(108, 92, 231, 0.1); border-radius: 12px;
+            padding: 16px; margin: 20px 0; text-align: left;
+        }
+        .product-info p { margin: 4px 0; }
+        .form-group { margin: 16px 0; text-align: left; }
+        .form-group label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; }
+        .form-group input {
+            width: 100%; padding: 12px; background: #2a2d3a; border: 1px solid var(--border);
+            border-radius: 8px; color: var(--text); font-size: 1rem; outline: none;
+        }
+        .form-group input:focus { border-color: var(--accent); }
+        .card-row { display: flex; gap: 12px; }
+        .card-row .form-group { flex: 1; }
+        .btn-pay {
+            width: 100%; padding: 14px; margin-top: 8px;
+            background: var(--accent); color: white; border: none;
+            border-radius: 10px; font-size: 1.05rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .btn-pay:hover { filter: brightness(1.15); }
+        .test-hint {
+            margin-top: 20px; padding: 14px; background: rgba(255,171,0,0.1);
+            border: 1px solid rgba(255,171,0,0.3); border-radius: 10px;
+            font-size: 0.82rem; color: #ffab00; text-align: left;
+        }
+        .test-hint code {
+            background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px;
+            font-size: 0.78rem;
+        }
+        .success-overlay {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+            align-items: center; justify-content: center; z-index: 1000;
+        }
+        .success-overlay.show { display: flex; }
+        .success-card {
+            background: var(--bg-card); border: 1px solid var(--success);
+            border-radius: 16px; padding: 40px; text-align: center; max-width: 400px;
+        }
+        .success-icon { font-size: 4rem; margin-bottom: 16px; }
+    </style>
+</head>
+<body>
+    <div class="checkout-card" id="checkoutForm">
+        <h1>💳 Secure Checkout</h1>
+        <p style="color: var(--text-muted); margin-bottom: 8px;">
+            Powered by <strong>Stripe</strong> (Test Mode)
+        </p>
+        <div class="stripe-badge">🔒 Stripe Test Environment</div>
+
+        <div class="product-info" id="productInfo">
+            <p><strong>Product:</strong> <span id="productName">—</span></p>
+            <p><strong>Amount:</strong> <span id="productAmount">—</span></p>
+            <p><strong>Order ID:</strong> <span id="orderId">—</span></p>
+        </div>
+
+        <div class="form-group">
+            <label>Cardholder Name</label>
+            <input type="text" id="cardName" placeholder="John Doe" value="Test User">
+        </div>
+        <div class="form-group">
+            <label>Card Number</label>
+            <input type="text" id="cardNumber" placeholder="4242 4242 4242 4242"
+                   value="4242 4242 4242 4242">
+        </div>
+        <div class="card-row">
+            <div class="form-group">
+                <label>Expiry (MM/YY)</label>
+                <input type="text" id="cardExpiry" placeholder="12/28" value="12/28">
+            </div>
+            <div class="form-group">
+                <label>CVC</label>
+                <input type="text" id="cardCvc" placeholder="123" value="123">
+            </div>
+        </div>
+
+        <button class="btn-pay" onclick="processPayment()">
+            💳 Pay Now
+        </button>
+
+        <div class="test-hint">
+            <strong>🧪 Test Mode</strong><br>
+            Success: <code>4242 4242 4242 4242</code><br>
+            Auth Required: <code>4000 0027 6000 3184</code><br>
+            Declined: <code>4000 0000 0000 0002</code><br>
+            Use any future expiry, any 3-digit CVC.
+        </div>
+    </div>
+
+    <div class="success-overlay" id="successOverlay">
+        <div class="success-card">
+            <div class="success-icon">🎉</div>
+            <h2>Payment Successful!</h2>
+            <p style="margin: 12px 0; color: var(--text-muted);">
+                Your order has been placed. (Test mode — no actual charge)
+            </p>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">
+                Order ID: <span id="successOrderId">—</span>
+            </p>
+            <button class="btn-pay" onclick="closeSuccess()" style="margin-top: 20px;">
+                Back to Chat
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Parse query parameters
+        const params = new URLSearchParams(window.location.search);
+        const orderId = params.get('order_id') || 'order-unknown';
+        const productName = params.get('product') || 'Product';
+        const amount = params.get('amount') || '0.00';
+
+        document.getElementById('productName').textContent = productName;
+        document.getElementById('productAmount').textContent = '$' + parseFloat(amount).toFixed(2);
+        document.getElementById('orderId').textContent = orderId;
+
+        function processPayment() {
+            const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+
+            // Simulate payment processing
+            if (cardNumber === '4000000000000002') {
+                alert('Payment declined. Please try a different card.');
+                return;
+            }
+
+            // Show success
+            document.getElementById('successOrderId').textContent = orderId;
+            document.getElementById('successOverlay').classList.add('show');
+
+            // Notify parent window (if opened from chat)
+            if (window.opener) {
+                try {
+                    window.opener.postMessage({
+                        type: 'payment_complete',
+                        orderId: orderId,
+                        status: 'paid',
+                    }, '*');
+                } catch (e) {}
+            }
+        }
+
+        function closeSuccess() {
+            window.close();
+        }
+    </script>
+</body>
+</html>

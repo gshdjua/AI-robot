@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CommerceBot — AI Shopping Assistant</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="logo">🛍️ CommerceBot</h1>
+                <p class="tagline">AI Shopping Assistant</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/" class="nav-item active" data-page="chat">
+                    <span class="nav-icon">💬</span> Chat
+                </a>
+                <a href="/dashboards/observability.html" class="nav-item" data-page="observability">
+                    <span class="nav-icon">📊</span> Observability
+                </a>
+                <a href="/dashboards/evaluation.html" class="nav-item" data-page="evaluation">
+                    <span class="nav-icon">📈</span> Evaluation
+                </a>
+                <a href="/api/docs" class="nav-item" target="_blank">
+                    <span class="nav-icon">📚</span> API Docs
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="metrics-mini">
+                    <h4>Live KPIs</h4>
+                    <div class="kpi-row">
+                        <span class="kpi-label">Conversations</span>
+                        <span class="kpi-value" id="kpi-conversations">—</span>
+                    </div>
+                    <div class="kpi-row">
+                        <span class="kpi-label">Orders</span>
+                        <span class="kpi-value" id="kpi-orders">—</span>
+                    </div>
+                    <div class="kpi-row">
+                        <span class="kpi-label">Conversion</span>
+                        <span class="kpi-value" id="kpi-conversion">—</span>
+                    </div>
+                    <div class="kpi-row">
+                        <span class="kpi-label">Revenue</span>
+                        <span class="kpi-value" id="kpi-revenue">—</span>
+                    </div>
+                </div>
+                <div class="stripe-badge">
+                    <span>🔒 Payments by Stripe</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="main-content">
+            <header class="chat-header">
+                <h2>CommerceBot Chat</h2>
+                <div class="header-actions">
+                    <button class="btn-header" onclick="newConversation()" title="New conversation">
+                        ✨ New Chat
+                    </button>
+                </div>
+            </header>
+
+            <div class="chat-messages" id="chatMessages">
+                <!-- Welcome message -->
+                <div class="message assistant">
+                    <div class="message-avatar">🤖</div>
+                    <div class="message-content">
+                        <p>Hello! 👋 I'm <strong>CommerceBot</strong>, your AI shopping assistant.</p>
+                        <p>I can help you:</p>
+                        <ul>
+                            <li>🔍 <strong>Search</strong> for products across Electronics, Clothing, Books, and Home</li>
+                            <li>📋 <strong>Compare</strong> products side-by-side</li>
+                            <li>💳 <strong>Purchase</strong> securely with Stripe checkout</li>
+                        </ul>
+                        <p>What are you looking for today?</p>
+                        <div class="quick-actions">
+                            <span class="quick-label">Try asking:</span>
+                            <button class="quick-btn" onclick="sendQuick('Show me laptops under $1500')">
+                                Show me laptops under $1500
+                            </button>
+                            <button class="quick-btn" onclick="sendQuick('What headphones do you have?')">
+                                What headphones do you have?
+                            </button>
+                            <button class="quick-btn" onclick="sendQuick('Recommend some programming books')">
+                                Recommend some programming books
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input-area">
+                <div class="input-container">
+                    <textarea
+                        id="chatInput"
+                        placeholder="Ask me about products, comparisons, or purchases..."
+                        rows="1"
+                        onkeydown="handleKeyDown(event)"
+                    ></textarea>
+                    <button class="btn-send" id="sendButton" onclick="sendMessage()">
+                        <span>▶</span>
+                    </button>
+                </div>
+                <p class="input-hint">Press Enter to send, Shift+Enter for new line</p>
+            </div>
+        </main>
+
+        <!-- Product Detail Panel -->
+        <aside class="detail-panel" id="detailPanel" style="display:none;">
+            <div class="panel-header">
+                <h3>Product Details</h3>
+                <button class="btn-close" onclick="closeDetails()">✕</button>
+            </div>
+            <div class="panel-content" id="detailContent">
+                <!-- Populated dynamically -->
+            </div>
+        </aside>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

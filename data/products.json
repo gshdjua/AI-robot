@@ -1,0 +1,354 @@
+[
+  {
+    "id": "elec-001",
+    "name": "MacBook Air M4",
+    "category": "Electronics",
+    "price": 999.00,
+    "description": "Apple MacBook Air with M4 chip, 13.6-inch Liquid Retina display, 16GB unified memory, 256GB SSD. Incredibly thin and light design with all-day battery life.",
+    "specs": {
+      "Processor": "Apple M4",
+      "RAM": "16GB",
+      "Storage": "256GB SSD",
+      "Display": "13.6\" Liquid Retina",
+      "Battery": "Up to 18 hours",
+      "Weight": "1.24 kg"
+    },
+    "image_url": "https://placehold.co/300x200?text=MacBook+Air+M4",
+    "stock": 25,
+    "rating": 4.8
+  },
+  {
+    "id": "elec-002",
+    "name": "Dell XPS 15",
+    "category": "Electronics",
+    "price": 1299.00,
+    "description": "Dell XPS 15 with Intel Core i7-13700H, 15.6-inch 3.5K OLED display, 16GB DDR5 RAM, 512GB SSD. Premium build quality with stunning display.",
+    "specs": {
+      "Processor": "Intel Core i7-13700H",
+      "RAM": "16GB DDR5",
+      "Storage": "512GB SSD",
+      "Display": "15.6\" 3.5K OLED",
+      "Battery": "Up to 12 hours",
+      "Weight": "1.86 kg"
+    },
+    "image_url": "https://placehold.co/300x200?text=Dell+XPS+15",
+    "stock": 15,
+    "rating": 4.6
+  },
+  {
+    "id": "elec-003",
+    "name": "Samsung Galaxy S25 Ultra",
+    "category": "Electronics",
+    "price": 1199.00,
+    "description": "Samsung Galaxy S25 Ultra with 6.8-inch Dynamic AMOLED 2X display, 200MP camera, S Pen included, 256GB storage. The ultimate Android experience.",
+    "specs": {
+      "Display": "6.8\" Dynamic AMOLED 2X",
+      "Camera": "200MP + 50MP + 12MP + 10MP",
+      "Processor": "Snapdragon 8 Gen 4",
+      "RAM": "12GB",
+      "Storage": "256GB",
+      "Battery": "5000mAh"
+    },
+    "image_url": "https://placehold.co/300x200?text=Galaxy+S25+Ultra",
+    "stock": 30,
+    "rating": 4.7
+  },
+  {
+    "id": "elec-004",
+    "name": "Sony WH-1000XM6",
+    "category": "Electronics",
+    "price": 349.00,
+    "description": "Sony WH-1000XM6 wireless noise-cancelling headphones. Industry-leading ANC, 40-hour battery life, multipoint connection, and Hi-Res audio support.",
+    "specs": {
+      "Type": "Over-ear Wireless",
+      "Noise Cancelling": "Adaptive ANC",
+      "Battery": "40 hours",
+      "Charging": "USB-C, 5min = 3hrs",
+      "Codec": "LDAC, AAC, SBC",
+      "Weight": "250g"
+    },
+    "image_url": "https://placehold.co/300x200?text=Sony+WH-1000XM6",
+    "stock": 50,
+    "rating": 4.9
+  },
+  {
+    "id": "elec-005",
+    "name": "iPad Pro M4 11\"",
+    "category": "Electronics",
+    "price": 799.00,
+    "description": "Apple iPad Pro with M4 chip, 11-inch Ultra Retina XDR display, 256GB storage. The most powerful and versatile iPad ever.",
+    "specs": {
+      "Processor": "Apple M4",
+      "Display": "11\" Ultra Retina XDR",
+      "Storage": "256GB",
+      "Camera": "12MP wide + LiDAR",
+      "Battery": "Up to 10 hours",
+      "Weight": "444g"
+    },
+    "image_url": "https://placehold.co/300x200?text=iPad+Pro+M4",
+    "stock": 20,
+    "rating": 4.7
+  },
+  {
+    "id": "cloth-001",
+    "name": "Classic Fit Cotton Oxford Shirt",
+    "category": "Clothing",
+    "price": 59.99,
+    "description": "Premium cotton Oxford shirt in classic fit. Available in white, blue, and pink. Perfect for both casual and business casual settings.",
+    "specs": {
+      "Material": "100% Cotton Oxford",
+      "Fit": "Classic",
+      "Sizes": "XS-3XL",
+      "Care": "Machine washable",
+      "Colors": "White, Blue, Pink"
+    },
+    "image_url": "https://placehold.co/300x200?text=Oxford+Shirt",
+    "stock": 100,
+    "rating": 4.4
+  },
+  {
+    "id": "cloth-002",
+    "name": "Slim Fit Wool Blazer",
+    "category": "Clothing",
+    "price": 189.00,
+    "description": "Tailored slim-fit wool blazer. Perfect for formal occasions and office wear. Features notch lapel and two-button closure.",
+    "specs": {
+      "Material": "100% Virgin Wool",
+      "Fit": "Slim",
+      "Sizes": "S-2XL",
+      "Care": "Dry clean only",
+      "Colors": "Navy, Charcoal, Black"
+    },
+    "image_url": "https://placehold.co/300x200?text=Wool+Blazer",
+    "stock": 35,
+    "rating": 4.6
+  },
+  {
+    "id": "cloth-003",
+    "name": "Ultraboost Running Shoes",
+    "category": "Clothing",
+    "price": 180.00,
+    "description": "Adidas Ultraboost running shoes with responsive Boost cushioning, Primeknit upper, and Continental rubber outsole. Designed for everyday running.",
+    "specs": {
+      "Material": "Primeknit textile",
+      "Sole": "Continental Rubber",
+      "Cushioning": "Boost midsole",
+      "Sizes": "US 7-14",
+      "Weight": "310g per shoe"
+    },
+    "image_url": "https://placehold.co/300x200?text=Ultraboost",
+    "stock": 60,
+    "rating": 4.5
+  },
+  {
+    "id": "cloth-004",
+    "name": "Cashmere Crew Neck Sweater",
+    "category": "Clothing",
+    "price": 149.00,
+    "description": "Luxuriously soft cashmere crew neck sweater. Lightweight yet warm. Available in versatile neutral colors.",
+    "specs": {
+      "Material": "100% Cashmere",
+      "Fit": "Regular",
+      "Sizes": "XS-2XL",
+      "Care": "Hand wash cold",
+      "Colors": "Black, Grey, Camel, Navy"
+    },
+    "image_url": "https://placehold.co/300x200?text=Cashmere+Sweater",
+    "stock": 40,
+    "rating": 4.7
+  },
+  {
+    "id": "book-001",
+    "name": "Designing Data-Intensive Applications",
+    "category": "Books",
+    "price": 39.99,
+    "description": "By Martin Kleppmann. The definitive guide to distributed systems, databases, and data processing. Covers reliability, scalability, and maintainability.",
+    "specs": {
+      "Author": "Martin Kleppmann",
+      "Pages": 616,
+      "Publisher": "O'Reilly Media",
+      "Format": "Paperback",
+      "ISBN": "978-1449373320",
+      "Year": 2017
+    },
+    "image_url": "https://placehold.co/300x200?text=DDIA+Book",
+    "stock": 80,
+    "rating": 4.9
+  },
+  {
+    "id": "book-002",
+    "name": "Deep Learning with Python",
+    "category": "Books",
+    "price": 44.99,
+    "description": "By François Chollet. Practical deep learning from the creator of Keras. Covers computer vision, NLP, and generative models with TensorFlow/Keras.",
+    "specs": {
+      "Author": "François Chollet",
+      "Pages": 504,
+      "Publisher": "Manning",
+      "Format": "Paperback",
+      "ISBN": "978-1617296864",
+      "Year": 2021
+    },
+    "image_url": "https://placehold.co/300x200?text=Deep+Learning+Book",
+    "stock": 55,
+    "rating": 4.7
+  },
+  {
+    "id": "book-003",
+    "name": "The Pragmatic Programmer",
+    "category": "Books",
+    "price": 49.99,
+    "description": "By David Thomas & Andrew Hunt. 20th Anniversary Edition. The classic guide to software craftsmanship, covering everything from personal responsibility to architectural patterns.",
+    "specs": {
+      "Author": "David Thomas, Andrew Hunt",
+      "Pages": 352,
+      "Publisher": "Addison-Wesley",
+      "Format": "Hardcover",
+      "ISBN": "978-0135957059",
+      "Year": 2019
+    },
+    "image_url": "https://placehold.co/300x200?text=Pragmatic+Programmer",
+    "stock": 45,
+    "rating": 4.8
+  },
+  {
+    "id": "book-004",
+    "name": "Clean Code",
+    "category": "Books",
+    "price": 37.99,
+    "description": "By Robert C. Martin. A handbook of agile software craftsmanship. Learn to write code that is readable, maintainable, and professional.",
+    "specs": {
+      "Author": "Robert C. Martin",
+      "Pages": 464,
+      "Publisher": "Prentice Hall",
+      "Format": "Paperback",
+      "ISBN": "978-0132350884",
+      "Year": 2008
+    },
+    "image_url": "https://placehold.co/300x200?text=Clean+Code",
+    "stock": 70,
+    "rating": 4.5
+  },
+  {
+    "id": "home-001",
+    "name": "Dyson V15 Detect Cordless Vacuum",
+    "category": "Home",
+    "price": 749.99,
+    "description": "Dyson V15 Detect cordless vacuum with laser dust detection, piezo sensor for particle counting, and 60-minute fade-free runtime.",
+    "specs": {
+      "Suction": "240 AW",
+      "Runtime": "Up to 60 min",
+      "Bin Volume": "0.76L",
+      "Filtration": "Whole-machine HEPA",
+      "Weight": "3.1 kg",
+      "Display": "LCD screen"
+    },
+    "image_url": "https://placehold.co/300x200?text=Dyson+V15",
+    "stock": 18,
+    "rating": 4.6
+  },
+  {
+    "id": "home-002",
+    "name": "Nespresso Vertuo Next",
+    "category": "Home",
+    "price": 179.00,
+    "description": "Nespresso Vertuo Next coffee machine with Centrifusion technology. Brews 5 cup sizes from espresso to carafe. WiFi connected.",
+    "specs": {
+      "Pressure": "Centrifusion technology",
+      "Sizes": "Espresso, Double, Gran Lungo, Mug, Carafe",
+      "Water Tank": "1.1L",
+      "Connectivity": "WiFi & Bluetooth",
+      "Warm-up": "30 seconds"
+    },
+    "image_url": "https://placehold.co/300x200?text=Vertuo+Next",
+    "stock": 42,
+    "rating": 4.3
+  },
+  {
+    "id": "home-003",
+    "name": "Ember Temperature Control Mug 2",
+    "category": "Home",
+    "price": 129.95,
+    "description": "Ember Mug 2 with precision temperature control. Set your ideal drinking temperature via app. 1.5-hour battery life on the go, all day on charging coaster.",
+    "specs": {
+      "Capacity": "295ml / 10oz",
+      "Temperature": "50°C - 62.5°C",
+      "Battery": "1.5 hrs (80 min on coaster)",
+      "Connectivity": "Bluetooth",
+      "Material": "Stainless steel"
+    },
+    "image_url": "https://placehold.co/300x200?text=Ember+Mug",
+    "stock": 33,
+    "rating": 4.4
+  },
+  {
+    "id": "home-004",
+    "name": "Philips Hue Starter Kit",
+    "category": "Home",
+    "price": 199.99,
+    "description": "Philips Hue White and Color Ambiance starter kit with 4 smart bulbs and Hue Bridge. Control 16 million colors via app or voice assistants.",
+    "specs": {
+      "Bulbs": "4x A19 10W LED",
+      "Colors": "16 million",
+      "Bridge": "Hue Bridge v2 included",
+      "Compatibility": "Alexa, Google, HomeKit",
+      "Lifetime": "25,000 hours per bulb"
+    },
+    "image_url": "https://placehold.co/300x200?text=Philips+Hue",
+    "stock": 28,
+    "rating": 4.5
+  },
+  {
+    "id": "elec-006",
+    "name": "LG C4 65\" OLED TV",
+    "category": "Electronics",
+    "price": 1499.00,
+    "description": "LG C4 65-inch 4K OLED evo TV with Alpha 9 AI processor. Perfect blacks, infinite contrast, and cinema-quality picture. Dolby Vision and Dolby Atmos support.",
+    "specs": {
+      "Display": "65\" OLED evo 4K",
+      "Processor": "α9 AI Processor Gen6",
+      "HDR": "Dolby Vision, HDR10, HLG",
+      "Audio": "Dolby Atmos, 40W",
+      "HDMI": "4x HDMI 2.1",
+      "Smart TV": "webOS 24"
+    },
+    "image_url": "https://placehold.co/300x200?text=LG+C4+OLED",
+    "stock": 12,
+    "rating": 4.8
+  },
+  {
+    "id": "cloth-005",
+    "name": "Levi's 501 Original Fit Jeans",
+    "category": "Clothing",
+    "price": 79.99,
+    "description": "The iconic Levi's 501 Original Fit jeans. Straight leg, button fly, and authentic raw denim. The blueprint for every pair of jeans since 1873.",
+    "specs": {
+      "Material": "100% Cotton Denim",
+      "Fit": "Original/Straight",
+      "Sizes": "28-42 waist",
+      "Care": "Machine wash cold",
+      "Colors": "Dark Wash, Light Wash, Black"
+    },
+    "image_url": "https://placehold.co/300x200?text=Levis+501",
+    "stock": 90,
+    "rating": 4.6
+  },
+  {
+    "id": "book-005",
+    "name": "Build: An Unorthodox Guide to Making Things Worth Making",
+    "category": "Books",
+    "price": 26.99,
+    "description": "By Tony Fadell. The legendary iPod and Nest designer shares hard-won lessons from his career at Apple and beyond. Essential reading for product builders.",
+    "specs": {
+      "Author": "Tony Fadell",
+      "Pages": 416,
+      "Publisher": "Harper Business",
+      "Format": "Hardcover",
+      "ISBN": "978-0063046061",
+      "Year": 2022
+    },
+    "image_url": "https://placehold.co/300x200?text=Build+Book",
+    "stock": 38,
+    "rating": 4.7
+  }
+]

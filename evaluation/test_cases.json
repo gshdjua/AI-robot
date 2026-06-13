@@ -1,0 +1,106 @@
+{
+  "test_cases": [
+    {
+      "id": "tc-001",
+      "query": "Show me laptops under $1500",
+      "ground_truth": "Products available under $1500: MacBook Air M4 at $999.00 and Dell XPS 15 at $1299.00. Also iPad Pro M4 at $799.00 if tablets are relevant.",
+      "expected_products": ["elec-001", "elec-002"],
+      "category": "search",
+      "expected_intent": "search"
+    },
+    {
+      "id": "tc-002",
+      "query": "Compare MacBook Air M4 and Dell XPS 15",
+      "ground_truth": "MacBook Air M4 ($999): Apple M4 chip, 16GB RAM, 256GB SSD, 13.6\" display, 1.24kg. Dell XPS 15 ($1299): Intel i7-13700H, 16GB DDR5, 512GB SSD, 15.6\" 3.5K OLED, 1.86kg. Best value: MacBook Air M4.",
+      "expected_products": ["elec-001", "elec-002"],
+      "category": "compare",
+      "expected_intent": "compare"
+    },
+    {
+      "id": "tc-003",
+      "query": "What wireless headphones do you have?",
+      "ground_truth": "We have the Sony WH-1000XM6 at $349.00. Industry-leading ANC, 40-hour battery life, multipoint connection.",
+      "expected_products": ["elec-004"],
+      "category": "search",
+      "expected_intent": "search"
+    },
+    {
+      "id": "tc-004",
+      "query": "Recommend a good programming book",
+      "ground_truth": "Top programming books: Designing Data-Intensive Applications ($39.99), Deep Learning with Python ($44.99), The Pragmatic Programmer ($49.99), Clean Code ($37.99).",
+      "expected_products": ["book-001", "book-002", "book-003", "book-004"],
+      "category": "search",
+      "expected_intent": "search"
+    },
+    {
+      "id": "tc-005",
+      "query": "Do you have any coffee machines?",
+      "ground_truth": "Yes, the Nespresso Vertuo Next at $179.00. Brews 5 cup sizes, WiFi connected, 30-second warm-up.",
+      "expected_products": ["home-002"],
+      "category": "search",
+      "expected_intent": "search"
+    },
+    {
+      "id": "tc-006",
+      "query": "What's the cheapest item you sell?",
+      "ground_truth": "The cheapest item is Build by Tony Fadell at $26.99. The cheapest non-book item is the Classic Fit Cotton Oxford Shirt at $59.99.",
+      "expected_products": ["book-005", "cloth-001"],
+      "category": "search",
+      "expected_intent": "search"
+    },
+    {
+      "id": "tc-007",
+      "query": "I want to buy a Sony WH-1000XM6",
+      "ground_truth": "Creating checkout for Sony WH-1000XM6 at $349.00. In stock: 50 units.",
+      "expected_products": ["elec-004"],
+      "category": "purchase",
+      "expected_intent": "purchase"
+    },
+    {
+      "id": "tc-008",
+      "query": "What smart home products are available?",
+      "ground_truth": "Smart home products: Dyson V15 Detect ($749.99), Ember Temperature Control Mug 2 ($129.95), Philips Hue Starter Kit ($199.99).",
+      "expected_products": ["home-001", "home-003", "home-004"],
+      "category": "search",
+      "expected_intent": "search"
+    },
+    {
+      "id": "tc-009",
+      "query": "Tell me details about the LG OLED TV",
+      "ground_truth": "LG C4 65\" OLED TV at $1499.00: 4K OLED evo, α9 AI Gen6 processor, Dolby Vision/Atmos, 4x HDMI 2.1, webOS 24. Rating: 4.8/5. Stock: 12.",
+      "expected_products": ["elec-006"],
+      "category": "ask_details",
+      "expected_intent": "ask_details"
+    },
+    {
+      "id": "tc-010",
+      "query": "Find me jeans and a sweater",
+      "ground_truth": "Jeans: Levi's 501 Original Fit at $79.99. Sweater: Cashmere Crew Neck Sweater at $149.00. Total: $228.99.",
+      "expected_products": ["cloth-005", "cloth-004"],
+      "category": "search",
+      "expected_intent": "search"
+    },
+    {
+      "id": "tc-011",
+      "query": "Compare Sony WH-1000XM6 with any other headphones",
+      "ground_truth": "Sony WH-1000XM6 is the only headphone in our catalog. It costs $349.00 with 4.9/5 rating.",
+      "expected_products": ["elec-004"],
+      "category": "compare",
+      "expected_intent": "compare"
+    },
+    {
+      "id": "tc-012",
+      "query": "What's the best rated product overall?",
+      "ground_truth": "Highest rated products: Sony WH-1000XM6 and Designing Data-Intensive Applications tied at 4.9/5.",
+      "expected_products": ["elec-004", "book-001"],
+      "category": "search",
+      "expected_intent": "search"
+    }
+  ],
+  "metrics_config": {
+    "k_retrieval": 5,
+    "relevance_threshold": 0.7,
+    "models_tested": ["claude-sonnet-4-6", "gpt-4o", "mock"],
+    "evaluation_framework": "ragas + langfuse"
+  }
+}

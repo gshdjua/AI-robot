@@ -1,0 +1,38 @@
+# Environment variables (contains API keys)
+.env
+
+# SQLite database (may contain user data)
+data/*.db
+
+# Claude Code local settings (contains personal paths)
+.claude/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Evaluation results (generated)
+evaluation/evaluation_results.json

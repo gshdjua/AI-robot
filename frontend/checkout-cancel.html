@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Cancelled — CommerceBot</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0f1117; color: #e8eaed;
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh;
+        }
+        .container { text-align: center; max-width: 440px; padding: 40px; }
+        .icon { font-size: 5rem; margin-bottom: 20px; }
+        h1 { font-size: 1.6rem; margin-bottom: 10px; color: #ffab00; }
+        p { color: #9aa0b0; margin: 8px 0; line-height: 1.6; }
+        .btn {
+            display: inline-block; margin-top: 24px; padding: 12px 32px;
+            background: #6c5ce7; color: white; text-decoration: none;
+            border-radius: 10px; font-weight: 600; transition: filter 0.2s;
+        }
+        .btn:hover { filter: brightness(1.15); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">↩️</div>
+        <h1>Checkout Cancelled</h1>
+        <p>Your payment was not completed. No charges were made.</p>
+        <p style="font-size: 0.85rem;">
+            You can return to the chat and try again whenever you're ready.
+        </p>
+        <a href="/" class="btn">← Back to CommerceBot</a>
+    </div>
+</body>
+</html>

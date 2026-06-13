@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Observability Dashboard — CommerceBot</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --bg: #0f1117; --bg-card: #1a1d27; --text: #e8eaed;
+            --text-muted: #9aa0b0; --accent: #6c5ce7; --success: #00c853;
+            --warning: #ffab00; --danger: #ff5252; --border: #2d3140;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg); color: var(--text); min-height: 100vh;
+        }
+        .dashboard {
+            max-width: 1200px; margin: 0 auto; padding: 32px 24px;
+        }
+        .header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 32px;
+        }
+        h1 { font-size: 1.6rem; }
+        .badge {
+            padding: 6px 14px; border-radius: 20px; font-size: 0.82rem;
+            font-weight: 600;
+        }
+        .badge-live { background: rgba(0,200,83,0.15); color: var(--success); }
+        .badge-test { background: rgba(255,171,0,0.15); color: var(--warning); }
+        .kpi-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 16px; margin-bottom: 32px;
+        }
+        .kpi-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 12px; padding: 20px;
+        }
+        .kpi-label { font-size: 0.78rem; color: var(--text-muted);
+                      text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+        .kpi-value { font-size: 2rem; font-weight: 700; }
+        .kpi-sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
+        .charts-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 16px; margin-bottom: 32px;
+        }
+        .chart-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 12px; padding: 20px;
+        }
+        .chart-card h3 { font-size: 0.95rem; margin-bottom: 16px; }
+        .chart-container { position: relative; height: 250px; }
+        .trace-table {
+            width: 100%; border-collapse: collapse;
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 12px; overflow: hidden;
+        }
+        .trace-table th, .trace-table td {
+            padding: 10px 16px; text-align: left; font-size: 0.85rem;
+        }
+        .trace-table th {
+            background: var(--border); font-weight: 600;
+            text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.5px;
+        }
+        .trace-table td { border-bottom: 1px solid var(--border); }
+        .status-ok { color: var(--success); }
+        .status-warn { color: var(--warning); }
+        .status-error { color: var(--danger); }
+        .refresh-btn {
+            padding: 8px 16px; background: var(--accent); color: white;
+            border: none; border-radius: 8px; cursor: pointer; font-size: 0.85rem;
+        }
+        .refresh-btn:hover { filter: brightness(1.15); }
+        .langfuse-link {
+            margin-top: 24px; padding: 16px;
+            background: rgba(108,92,231,0.1); border: 1px solid var(--accent);
+            border-radius: 12px; text-align: center;
+        }
+        .langfuse-link a { color: var(--accent); text-decoration: none; font-weight: 600; }
+        .back-link {
+            display: inline-block; margin-bottom: 20px; color: var(--text-muted);
+            text-decoration: none; font-size: 0.85rem;
+        }
+        .back-link:hover { color: var(--text); }
+        @media (max-width: 768px) {
+            .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+            .charts-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <a href="/" class="back-link">← Back to Chat</a>
+        <div class="header">
+            <h1>📊 Observability Dashboard</h1>
+            <div>
+                <span class="badge badge-live" id="connectionStatus">● Connected</span>
+                <button class="refresh-btn" onclick="refreshAll()" style="margin-left:12px;">🔄 Refresh</button>
+            </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-label">Total Conversations</div>
+                <div class="kpi-value" id="kpi-conversations" style="color: var(--accent);">—</div>
+                <div class="kpi-sub">Active chat sessions</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Total Messages</div>
+                <div class="kpi-value" id="kpi-messages" style="color: #7c6ff7;">—</div>
+                <div class="kpi-sub">User + Assistant messages</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Conversion Rate</div>
+                <div class="kpi-value" id="kpi-conversion" style="color: var(--success);">—</div>
+                <div class="kpi-sub">Orders / Conversations</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Total Revenue</div>
+                <div class="kpi-value" id="kpi-revenue" style="color: var(--warning);">—</div>
+                <div class="kpi-sub">Completed orders (test mode)</div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h3>📈 Intent Distribution</h3>
+                <div class="chart-container">
+                    <canvas id="intentChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <h3>⏱️ LLM Latency (Last 20 requests)</h3>
+                <div class="chart-container">
+                    <canvas id="latencyChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <h3>🧠 Token Usage (Last 20 requests)</h3>
+                <div class="chart-container">
+                    <canvas id="tokenChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <h3>📦 Order Funnel</h3>
+                <div class="chart-container">
+                    <canvas id="orderFunnel"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Traces Table -->
+        <div class="chart-card" style="margin-bottom: 32px;">
+            <h3>🔍 Recent Traces</h3>
+            <div style="overflow-x: auto;">
+                <table class="trace-table">
+                    <thead>
+                        <tr>
+                            <th>Trace ID</th>
+                            <th>Duration</th>
+                            <th>Spans</th>
+                            <th>Tokens</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="traceTableBody">
+                        <tr><td colspan="5" style="text-align:center; color:var(--text-muted);">
+                            Send a message in the chat to generate traces.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Langfuse Integration -->
+        <div class="langfuse-link">
+            <p>
+                🔗 Full traces available in
+                <a href="https://cloud.langfuse.com" target="_blank">Langfuse Dashboard →</a>
+            </p>
+            <p style="font-size:0.8rem; color:var(--text-muted); margin-top:8px;">
+                Set LANGFUSE_PUBLIC_KEY, LANGFUSE_SECRET_KEY, and LANGFUSE_HOST env vars
+                to enable Langfuse tracing.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = window.location.origin;
+        let intentChart, latencyChart, tokenChart, orderFunnel;
+        const latencyData = [];
+        const tokenData = [];
+
+        async function refreshAll() {
+            await fetchMetrics();
+            updateCharts();
+        }
+
+        async function fetchMetrics() {
+            try {
+                const response = await fetch(`${API_BASE}/metrics`);
+                const data = await response.json();
+
+                document.getElementById('kpi-conversations').textContent = data.total_conversations || '0';
+                document.getElementById('kpi-messages').textContent = data.total_messages || '0';
+                document.getElementById('kpi-conversion').textContent =
+                    `${(data.conversion_rate || 0).toFixed(1)}%`;
+                document.getElementById('kpi-revenue').textContent =
+                    `$${(data.total_revenue || 0).toFixed(2)}`;
+
+                // Update intent chart
+                if (data.intent_distribution) {
+                    const labels = Object.keys(data.intent_distribution);
+                    const values = Object.values(data.intent_distribution);
+                    updateIntentChart(labels, values);
+                }
+
+                // Update order funnel
+                updateOrderFunnel(
+                    data.total_orders || 0,
+                    data.completed_orders || 0
+                );
+
+                document.getElementById('connectionStatus').textContent = '● Live';
+                document.getElementById('connectionStatus').className = 'badge badge-live';
+
+            } catch (e) {
+                document.getElementById('connectionStatus').textContent = '● Offline';
+                document.getElementById('connectionStatus').className = 'badge badge-test';
+            }
+        }
+
+        function updateCharts() {
+            updateLatencyChart();
+            updateTokenChart();
+        }
+
+        function updateIntentChart(labels, values) {
+            const ctx = document.getElementById('intentChart');
+            if (intentChart) intentChart.destroy();
+            const colors = ['#6c5ce7', '#00c853', '#ffab00', '#ff5252', '#448aff', '#e040fb'];
+            intentChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels.length ? labels : ['No data'],
+                    datasets: [{
+                        data: values.length ? values : [1],
+                        backgroundColor: colors.slice(0, Math.max(labels.length, 1)),
+                        borderWidth: 0,
+                    }],
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom',
+                                  labels: { color: '#9aa0b0', padding: 12, font: { size: 11 } } },
+                    },
+                },
+            });
+        }
+
+        function updateLatencyChart() {
+            const ctx = document.getElementById('latencyChart');
+            if (latencyChart) latencyChart.destroy();
+            const labels = latencyData.map((_, i) => `#${i + 1}`);
+            const data = latencyData.length ? latencyData : [0];
+            latencyChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.map((_, i) => `#${i + 1}`),
+                    datasets: [{
+                        label: 'Latency (ms)',
+                        data: data,
+                        borderColor: '#6c5ce7',
+                        backgroundColor: 'rgba(108,92,231,0.1)',
+                        fill: true, tension: 0.3, pointRadius: 3,
+                    }],
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { labels: { color: '#9aa0b0' } } },
+                    scales: {
+                        x: { ticks: { color: '#6b7180' } },
+                        y: { ticks: { color: '#6b7180' }, beginAtZero: true },
+                    },
+                },
+            });
+        }
+
+        function updateTokenChart() {
+            const ctx = document.getElementById('tokenChart');
+            if (tokenChart) tokenChart.destroy();
+            const data = tokenData.length ? tokenData : [0];
+            tokenChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.map((_, i) => `#${i + 1}`),
+                    datasets: [{
+                        label: 'Tokens Used',
+                        data: data,
+                        backgroundColor: '#7c6ff7',
+                        borderRadius: 4,
+                    }],
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { labels: { color: '#9aa0b0' } } },
+                    scales: {
+                        x: { ticks: { color: '#6b7180' } },
+                        y: { ticks: { color: '#6b7180' }, beginAtZero: true },
+                    },
+                },
+            });
+        }
+
+        function updateOrderFunnel(total, completed) {
+            const ctx = document.getElementById('orderFunnel');
+            if (orderFunnel) orderFunnel.destroy();
+            orderFunnel = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Checkout Created', 'Payment Completed'],
+                    datasets: [{
+                        label: 'Orders',
+                        data: [total, completed],
+                        backgroundColor: ['#ffab00', '#00c853'],
+                        borderRadius: 6,
+                    }],
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { ticks: { color: '#9aa0b0' } },
+                        y: { ticks: { color: '#6b7180', stepSize: 1 },
+                             beginAtZero: true },
+                    },
+                },
+            });
+        }
+
+        // Simulated latency/token data for demo (real data comes from Langfuse in production)
+        function addSimulatedData() {
+            latencyData.push(Math.floor(Math.random() * 800 + 200));
+            tokenData.push(Math.floor(Math.random() * 3000 + 500));
+            if (latencyData.length > 20) latencyData.shift();
+            if (tokenData.length > 20) tokenData.shift();
+            updateCharts();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            refreshAll();
+            // Add some simulated data for demo display
+            for (let i = 0; i < 8; i++) {
+                latencyData.push(Math.floor(Math.random() * 600 + 150));
+                tokenData.push(Math.floor(Math.random() * 2500 + 400));
+            }
+            updateCharts();
+            setInterval(refreshAll, 15000); // Refresh every 15s
+        });
+    </script>
+</body>
+</html>
